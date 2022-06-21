@@ -5,9 +5,15 @@ import (
 	"github.com/thedevsaddam/govalidator"
 )
 
-type SignupPhoneExistRequest struct {
-	Phone string `json:"phone,omitempty" valid:"phone"`
-}
+type (
+	SignupPhoneExistRequest struct {
+		Phone string `json:"phone,omitempty" valid:"phone"`
+	}
+
+	SignupEmailExistRequest struct {
+		Email string `json:"email,omitempty" valid:"email"`
+	}
+)
 
 func ValidateSignupPhoneExist(data interface{}, ctx *gin.Context) map[string][]string {
 
@@ -34,10 +40,6 @@ func ValidateSignupPhoneExist(data interface{}, ctx *gin.Context) map[string][]s
 
 	// 开始验证
 	return govalidator.New(opts).ValidateStruct()
-}
-
-type SignupEmailExistRequest struct {
-	Email string `json:"email,omitempty" valid:"email"`
 }
 
 func ValidateSignupEmailExist(data interface{}, ctx *gin.Context) map[string][]string {

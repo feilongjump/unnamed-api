@@ -13,6 +13,7 @@ func RegisterApiRoutes(router *gin.Engine) {
 		{
 			src := new(auth.SignupController)
 			authGroup.POST("/signup/phone/exist", src.IsPhoneExist)
+			authGroup.POST("/signup/email/exist", src.IsEmailExist)
 		}
 	}
 }

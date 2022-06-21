@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"net/http"
+	"unnamed-api/app/http/controllers/api/v1/auth"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,11 +9,10 @@ import (
 func RegisterApiRoutes(router *gin.Engine) {
 	v1 := router.Group("v1")
 	{
-		v1.GET("/", func(ctx *gin.Context) {
-			// 以 JSON 格式响应
-			ctx.JSON(http.StatusOK, gin.H{
-				"Hello": "World",
-			})
-		})
+		authGroup := v1.Group("/auth")
+		{
+			src := new(auth.SignupController)
+			authGroup.POST("/signup/phone/exist", src.IsPhoneExist)
+		}
 	}
 }

@@ -7,10 +7,10 @@ import (
 	"unnamed-api/app/models/user"
 	"unnamed-api/pkg/config"
 	"unnamed-api/pkg/database"
+	"unnamed-api/pkg/logger"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 func SetupDB() {
@@ -36,7 +36,7 @@ func SetupDB() {
 	}
 
 	// 连接数据库，并设置 GORM 的日志模式
-	database.Connect(dbConfig, logger.Default.LogMode(logger.Info))
+	database.Connect(dbConfig, logger.NewGormLogger())
 
 	// 设置最大连接数
 	database.SQLDB.SetMaxOpenConns(config.GetInt("database.mysql.max_open_connections"))

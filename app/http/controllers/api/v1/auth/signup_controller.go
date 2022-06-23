@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"net/http"
 	v1 "unnamed-api/app/http/controllers/api/v1"
 	"unnamed-api/app/models/user"
 	"unnamed-api/app/requests"
+	"unnamed-api/pkg/response"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,7 +23,7 @@ func (sc *SignupController) IsPhoneExist(ctx *gin.Context) {
 	}
 
 	// 检查数据库并返回响应
-	ctx.JSON(http.StatusOK, gin.H{
+	response.JSON(ctx, gin.H{
 		"exist": user.IsPhoneExist(request.Phone),
 	})
 }
@@ -36,7 +36,7 @@ func (sc *SignupController) IsEmailExist(ctx *gin.Context) {
 	}
 
 	// 检查数据库并返回响应
-	ctx.JSON(http.StatusOK, gin.H{
+	response.JSON(ctx, gin.H{
 		"exist": user.IsEmailExist(request.Email),
 	})
 }

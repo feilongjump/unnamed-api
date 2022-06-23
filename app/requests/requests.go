@@ -1,8 +1,7 @@
 package requests
 
 import (
-	"fmt"
-	"net/http"
+	"unnamed-api/pkg/response"
 
 	"github.com/gin-gonic/gin"
 	"github.com/thedevsaddam/govalidator"
@@ -18,11 +17,7 @@ func Validate(ctx *gin.Context, request interface{}, handler ValidateFunc) bool 
 
 	// 解析 JSON 请求
 	if err := ctx.ShouldBind(request); err != nil {
-		ctx.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{
-			"message": "请求解析错误，请确认请求格式是否正确。上传文件请使用 multipart 标头，参数请使用 JSON 格式。",
-			"error":   err.Error(),
-		})
-		fmt.Println(err.Error())
+		response.BadRequest(ctx, err, "请求解析错误，请确认请求格式是否正确。上传文件请使用 multipart 标头，参数请使用 JSON 格式。")
 		return false
 	}
 
@@ -30,10 +25,7 @@ func Validate(ctx *gin.Context, request interface{}, handler ValidateFunc) bool 
 	errs := handler(request, ctx)
 	// errs 返回长度等于零即通过，大于 0 即有错误发生
 	if len(errs) > 0 {
-		ctx.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{
-			"message": "请求验证不通过，具体请查看 errors",
-			"errors":  errs,
-		})
+		response.ValidationError(ctx, errs)
 		return false
 	}
 

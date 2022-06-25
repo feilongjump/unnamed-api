@@ -2,9 +2,11 @@ package auth
 
 import (
 	v1 "unnamed-api/app/http/controllers/api/v1"
+	"unnamed-api/app/requests"
 	"unnamed-api/pkg/captcha"
 	"unnamed-api/pkg/logger"
 	"unnamed-api/pkg/response"
+	"unnamed-api/pkg/verifycode"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,4 +29,20 @@ func (vc *VerifyCodeController) ShowCaptcha(ctx *gin.Context) {
 		"captcha_id":    id,
 		"captcha_image": b64s,
 	})
+}
+
+// SendUsingEmail 发送 Email 验证码
+func (vc *VerifyCodeController) SendUsingEmail(ctx *gin.Context) {
+	// 验证表单
+	request := requests.VerifyCodeEmailRequest{}
+	if ok := requests.Validate(ctx, &request, requests.VerifyCodeEmail); !ok {
+		return
+	}
+
+	// 发送 Email
+	if err := verifycode.NewVerifyCode().SendEmail(request.Email); err != nil {
+		response.Abort500(ctx, "发送 Email 验证码失败！")
+	} else {
+		response.Success(ctx)
+	}
 }

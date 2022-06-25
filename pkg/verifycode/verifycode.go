@@ -1,12 +1,14 @@
 package verifycode
 
 import (
+	"fmt"
 	"strings"
 	"sync"
 	"unnamed-api/pkg/app"
 	"unnamed-api/pkg/config"
 	"unnamed-api/pkg/helpers"
 	"unnamed-api/pkg/logger"
+	"unnamed-api/pkg/mail"
 	"unnamed-api/pkg/redis"
 )
 
@@ -30,6 +32,31 @@ func NewVerifyCode() *VerifyCode {
 	})
 
 	return internalVerifyCode
+}
+
+// SendEmail 发送邮件验证码
+func (vc *VerifyCode) SendEmail(email string) error {
+	// 生成验证码
+	code := vc.generateVerifyCode(email)
+
+	// 方便本地和 API 自动测试
+	if !app.IsProduction() && strings.HasSuffix(email, config.GetString("verifycode.debug_email_suffix")) {
+		return nil
+	}
+
+	content := fmt.Sprintf("<h1>您的 Email 验证码是 %v </h1>", code)
+	// 发送邮件
+	mail.NewMailer().Send(mail.Email{
+		From: mail.From{
+			Address: config.GetString("mail.from.address"),
+			Name:    config.GetString("mail.from.name"),
+		},
+		To:      []string{email},
+		Subject: "Email 验证码",
+		HTML:    []byte(content),
+	})
+
+	return nil
 }
 
 // CheckAnswer 检查用户提交的验证码是否正确

@@ -11,14 +11,16 @@ func RegisterApiRoutes(router *gin.Engine) {
 	{
 		authGroup := v1.Group("/auth")
 		{
-			src := new(auth.SignupController)
-			authGroup.POST("/signup/phone/exist", src.IsPhoneExist)
-			authGroup.POST("/signup/email/exist", src.IsEmailExist)
+			suc := new(auth.SignupController)
+			authGroup.POST("/signup/phone/exist", suc.IsPhoneExist)
+			authGroup.POST("/signup/email/exist", suc.IsEmailExist)
+			authGroup.POST("/signup/using-email", suc.SignupUsingEmail)
 
-			// 发送验证码
+			// 验证码
 			vcc := new(auth.VerifyCodeController)
 			// 图片验证码，需要加限流
 			authGroup.POST("/verify-codes/captcha", vcc.ShowCaptcha)
+			// 发送 Email 验证码
 			authGroup.POST("/verify-codes/email", vcc.SendUsingEmail)
 		}
 	}

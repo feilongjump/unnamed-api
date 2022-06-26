@@ -1,6 +1,9 @@
 package user
 
-import "unnamed-api/app/models"
+import (
+	"unnamed-api/app/models"
+	"unnamed-api/pkg/database"
+)
 
 type User struct {
 	models.BaseModel
@@ -11,4 +14,9 @@ type User struct {
 	Password string `json:"-"`
 
 	models.CommonTimestampsField
+}
+
+// Create 创建用户，通过 User.ID 来判断是否创建成功
+func (userModel *User) Create() {
+	database.DB.Create(&userModel)
 }

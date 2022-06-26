@@ -4,6 +4,7 @@ import (
 	v1 "unnamed-api/app/http/controllers/api/v1"
 	"unnamed-api/app/models/user"
 	"unnamed-api/app/requests"
+	"unnamed-api/pkg/jwt"
 	"unnamed-api/pkg/response"
 
 	"github.com/gin-gonic/gin"
@@ -59,8 +60,10 @@ func (sc *SignupController) SignupUsingEmail(ctx *gin.Context) {
 	userModel.Create()
 
 	if userModel.ID > 0 {
+		token := jwt.NewJWT().IssueToken(userModel.GetStringID(), userModel.Name)
 		response.CreatedJSON(ctx, gin.H{
-			"data": userModel,
+			"token": token,
+			"data":  userModel,
 		})
 	} else {
 		response.Abort500(ctx, "创建用户失败，请稍后尝试~")

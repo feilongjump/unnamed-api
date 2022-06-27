@@ -28,6 +28,10 @@ func RegisterApiRoutes(router *gin.Engine) {
 			authGroup.POST("/login/using-email", lgc.LoginByEmail)
 			// 使用邮箱、手机号、用户名 + 密码进行登录
 			authGroup.POST("/login/using-password", lgc.LoginByPassword)
+
+			// 重置密码
+			pwc := new(auth.PasswordController)
+			authGroup.POST("/password-reset/using-email", pwc.ResetByEmail)
 		}
 	}
 }

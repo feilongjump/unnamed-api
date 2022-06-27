@@ -15,3 +15,10 @@ func IsPhoneExist(phone string) bool {
 	database.DB.Model(User{}).Where("phone = ?", phone).Count(&count)
 	return count > 0
 }
+
+// GetByEmail 通过 email 获取用户信息
+func GetByEmail(email string) (userModel User) {
+	database.DB.Where("email = ?", email).First(&userModel)
+
+	return
+}

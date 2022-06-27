@@ -26,7 +26,29 @@ func (lgc *LoginController) LoginByEmail(ctx *gin.Context) {
 	user, err := auth.LoginByEmail(request.Email)
 	if err != nil {
 		// 登录失败
-		response.Error(ctx, err, "账号不存在或密码错误")
+		response.Unauthorized(ctx, err.Error())
+	} else {
+		// 登录成功
+		token := jwt.NewJWT().IssueToken(user.GetStringID(), user.Name)
+
+		response.JSON(ctx, gin.H{
+			"token": token,
+		})
+	}
+}
+
+// LoginByPassword 密码登录
+func (lgc *LoginController) LoginByPassword(ctx *gin.Context) {
+	request := requests.LoginByPasswordRequest{}
+	if ok := requests.Validate(ctx, &request, requests.LoginByPassword); !ok {
+		return
+	}
+
+	// 尝试登录
+	user, err := auth.Attempt(request.UserName, request.Password)
+	if err != nil {
+		// 登录失败
+		response.Unauthorized(ctx, err.Error())
 	} else {
 		// 登录成功
 		token := jwt.NewJWT().IssueToken(user.GetStringID(), user.Name)

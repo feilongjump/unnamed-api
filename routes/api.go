@@ -26,6 +26,8 @@ func RegisterApiRoutes(router *gin.Engine) {
 			lgc := new(auth.LoginController)
 			// 使用邮箱和验证码进行登录
 			authGroup.POST("/login/using-email", lgc.LoginByEmail)
+			// 使用邮箱、手机号、用户名 + 密码进行登录
+			authGroup.POST("/login/using-password", lgc.LoginByPassword)
 		}
 	}
 }

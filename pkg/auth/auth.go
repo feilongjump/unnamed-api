@@ -14,3 +14,17 @@ func LoginByEmail(email string) (user.User, error) {
 
 	return userModel, nil
 }
+
+// Attempt 尝试用邮箱、手机号、用户名 + 密码登录
+func Attempt(username, password string) (user.User, error) {
+	userModel := user.GetByMulti(username)
+	if userModel.ID == 0 {
+		return user.User{}, errors.New("账号不存在")
+	}
+
+	if !userModel.ComparePassword(password) {
+		return user.User{}, errors.New("密码错误")
+	}
+
+	return userModel, nil
+}

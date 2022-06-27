@@ -22,3 +22,14 @@ func GetByEmail(email string) (userModel User) {
 
 	return
 }
+
+// GetByMulti 通过 email、phone、name 获取用户信息
+func GetByMulti(username string) (userModel User) {
+	database.DB.
+		Where("email = ?", username).
+		Or("phone = ?", username).
+		Or("name = ?", username).
+		First(&userModel)
+
+	return
+}

@@ -7,8 +7,10 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible
+	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d
 	github.com/mojocn/base64Captcha v1.3.5
 	github.com/spf13/cast v1.5.0
+	github.com/spf13/cobra v1.5.0
 	github.com/spf13/viper v1.12.0
 	github.com/thedevsaddam/govalidator v1.9.10
 	github.com/ulule/limiter/v3 v3.10.0
@@ -31,6 +33,7 @@ require (
 	github.com/goccy/go-json v0.9.7 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
+	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.4 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
@@ -38,7 +41,6 @@ require (
 	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
-	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect

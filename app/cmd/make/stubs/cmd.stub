@@ -1,0 +1,23 @@
+package cmd
+
+import (
+    "errors"
+    "unnamed-api/pkg/console"
+
+    "github.com/spf13/cobra"
+)
+
+var Cmd{{StructName}} = &cobra.Command{
+    Use: "{{PackageName}}",
+    Short: "HERE PUTS THE COMMAND DESCRIPTION",
+    Run: run{{StructName}},
+    Args: cobra.ExactArgs(1),   // 只允许且必须传 1 个参数
+}
+
+func run{{StructName}}(cmd *cobra.Command, args []string) {
+    console.Success("This is a successful prompt")
+    console.Warning("This is a reminder")
+    console.Error("This is an error message")
+    console.Exit("The Exit method can be used to print messages and interrupt the program!")
+    console.ExitIf(errors.New("If err = nil print and exit"))
+}

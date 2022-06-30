@@ -2,7 +2,9 @@ package database
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
+	"unnamed-api/pkg/config"
 
 	"gorm.io/gorm"
 	gormLogger "gorm.io/gorm/logger"
@@ -29,4 +31,49 @@ func Connect(dbConfig gorm.Dialector, _logger gormLogger.Interface) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+}
+
+func CurrentDatabase() (dbName string) {
+	dbName = DB.Migrator().CurrentDatabase()
+	return
+}
+
+func DeleteAllTables() error {
+	var err error
+	switch config.Get("database.connection") {
+	case "mysql":
+		err = deleteMySQLTables()
+	default:
+		panic(errors.New("database connection not supported"))
+	}
+
+	return err
+}
+
+func deleteMySQLTables() error {
+	dbName := CurrentDatabase()
+	tables := []string{}
+
+	// 读取所有数据表
+	err := DB.Table("information_schema.tables").
+		Where("table_schema = ?", dbName).
+		Pluck("table_name", &tables).
+		Error
+	if err != nil {
+		return err
+	}
+
+	// 暂时关闭外键检测
+	DB.Exec("SET foreign_key_checks = 0;")
+
+	// 删除所有表
+	for _, table := range tables {
+		if err := DB.Migrator().DropTable(table); err != nil {
+			return err
+		}
+	}
+
+	// 开启 MySQL 外键检测
+	DB.Exec("SET foreign_key_checks = 1;")
+	return nil
 }

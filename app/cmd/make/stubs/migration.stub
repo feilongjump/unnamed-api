@@ -1,0 +1,30 @@
+package migrations
+
+import (
+    "database/sql"
+    "unnamed-api/app/models"
+    "unnamed-api/pkg/migrate"
+
+    "gorm.io/gorm"
+)
+
+func init() {
+
+    type {{StructName}} struct {
+        models.BaseModel
+
+        FIXME()
+
+        models.CommonTimestampsField
+    }
+
+    up := func(migrator gorm.Migrator, DB *sql.DB) {
+        migrator.AutoMigrate(&{{StructName}}{})
+    }
+
+    down := func(migrator gorm.Migrator, DB *sql.DB) {
+        migrator.DropTable(&{{StructName}}{})
+    }
+
+    migrate.Add("{{FileName}}", up, down)
+}

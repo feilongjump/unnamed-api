@@ -2,6 +2,7 @@ package v1
 
 import (
 	"unnamed-api/app/models/user"
+	"unnamed-api/app/requests"
 	"unnamed-api/pkg/auth"
 	"unnamed-api/pkg/response"
 
@@ -20,6 +21,11 @@ func (ctrl *UsersController) CurrentUser(ctx *gin.Context) {
 
 // Index 所有用户
 func (ctrl *UsersController) Index(ctx *gin.Context) {
+	request := requests.PaginationRequest{}
+	if ok := requests.Validate(ctx, &request, requests.Pagination); !ok {
+		return
+	}
+
 	data, pager := user.Paginate(ctx, 10)
 	response.JSON(ctx, gin.H{
 		"data":  data,

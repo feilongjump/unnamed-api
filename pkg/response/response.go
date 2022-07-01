@@ -24,8 +24,8 @@ func Success(ctx *gin.Context) {
 
 // Created 响应 201 和带 data 键的 JSON 数据
 //	执行『更新操作』成功后调用
-func Created(c *gin.Context, data interface{}) {
-	c.JSON(http.StatusCreated, gin.H{
+func Created(ctx *gin.Context, data interface{}) {
+	ctx.JSON(http.StatusCreated, gin.H{
 		"success": true,
 		"data":    data,
 	})

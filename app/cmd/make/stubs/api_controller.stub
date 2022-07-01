@@ -13,24 +13,24 @@ type {{StructNamePlural}}Controller struct {
     BaseAPIController
 }
 
-func (ctrl *{{StructNamePlural}}Controller) Index(c *gin.Context) {
+func (ctrl *{{StructNamePlural}}Controller) Index(ctx *gin.Context) {
     {{VariableNamePlural}} := {{PackageName}}.All()
-    response.Data(c, {{VariableNamePlural}})
+    response.JSON(ctx, {{VariableNamePlural}})
 }
 
-func (ctrl *{{StructNamePlural}}Controller) Show(c *gin.Context) {
-    {{VariableName}}Model := {{PackageName}}.Get(c.Param("id"))
+func (ctrl *{{StructNamePlural}}Controller) Show(ctx *gin.Context) {
+    {{VariableName}}Model := {{PackageName}}.Get(ctx.Param("id"))
     if {{VariableName}}Model.ID == 0 {
-        response.Abort404(c)
+        response.Abort404(ctx)
         return
     }
-    response.Data(c, {{VariableName}}Model)
+    response.JSON(ctx, {{VariableName}}Model)
 }
 
-func (ctrl *{{StructNamePlural}}Controller) Store(c *gin.Context) {
+func (ctrl *{{StructNamePlural}}Controller) Store(ctx *gin.Context) {
 
     request := requests.{{StructName}}Request{}
-    if ok := requests.Validate(c, &request, requests.{{StructName}}Save); !ok {
+    if ok := requests.Validate(ctx, &request, requests.{{StructName}}Save); !ok {
         return
     }
 
@@ -39,62 +39,62 @@ func (ctrl *{{StructNamePlural}}Controller) Store(c *gin.Context) {
     }
     {{VariableName}}Model.Create()
     if {{VariableName}}Model.ID > 0 {
-        response.Created(c, {{VariableName}}Model)
+        response.Created(ctx, {{VariableName}}Model)
     } else {
-        response.Abort500(c, "创建失败，请稍后尝试~")
+        response.Abort500(ctx, "创建失败，请稍后尝试~")
     }
 }
 
-func (ctrl *{{StructNamePlural}}Controller) Update(c *gin.Context) {
+func (ctrl *{{StructNamePlural}}Controller) Update(ctx *gin.Context) {
 
-    {{VariableName}}Model := {{PackageName}}.Get(c.Param("id"))
+    {{VariableName}}Model := {{PackageName}}.Get(ctx.Param("id"))
     if {{VariableName}}Model.ID == 0 {
-        response.Abort404(c)
+        response.Abort404(ctx)
         return
     }
 
-    if ok := policies.CanModify{{StructName}}(c, {{VariableName}}Model); !ok {
-        response.Abort403(c)
+    if ok := policies.CanModify{{StructName}}(ctx, {{VariableName}}Model); !ok {
+        response.Abort403(ctx)
         return
     }
 
     request := requests.{{StructName}}Request{}
-    bindOk, errs := requests.Validate(c, &request, requests.{{StructName}}Save)
+    bindOk, errs := requests.Validate(ctx, &request, requests.{{StructName}}Save)
     if !bindOk {
         return
     }
     if len(errs) > 0 {
-        response.ValidationError(c, 20101, errs)
+        response.ValidationError(ctx, 20101, errs)
         return
     }
 
     {{VariableName}}Model.FieldName = request.FieldName
     rowsAffected := {{VariableName}}Model.Save()
     if rowsAffected > 0 {
-        response.Data(c, {{VariableName}}Model)
+        response.JSON(ctx, {{VariableName}}Model)
     } else {
-        response.Abort500(c, "更新失败，请稍后尝试~")
+        response.Abort500(ctx, "更新失败，请稍后尝试~")
     }
 }
 
-func (ctrl *{{StructNamePlural}}Controller) Delete(c *gin.Context) {
+func (ctrl *{{StructNamePlural}}Controller) Delete(ctx *gin.Context) {
 
-    {{VariableName}}Model := {{PackageName}}.Get(c.Param("id"))
+    {{VariableName}}Model := {{PackageName}}.Get(ctx.Param("id"))
     if {{VariableName}}Model.ID == 0 {
-        response.Abort404(c)
+        response.Abort404(ctx)
         return
     }
 
-    if ok := policies.CanModify{{StructName}}(c, {{VariableName}}Model); !ok {
-        response.Abort403(c)
+    if ok := policies.CanModify{{StructName}}(ctx, {{VariableName}}Model); !ok {
+        response.Abort403(ctx)
         return
     }
 
     rowsAffected := {{VariableName}}Model.Delete()
     if rowsAffected > 0 {
-        response.Success(c)
+        response.Success(ctx)
         return
     }
 
-    response.Abort500(c, "删除失败，请稍后尝试~")
+    response.Abort500(ctx, "删除失败，请稍后尝试~")
 }

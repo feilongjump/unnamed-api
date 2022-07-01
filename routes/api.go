@@ -55,4 +55,9 @@ func userRouter(routerGroup *gin.RouterGroup) {
 	uc := new(controllers.UsersController)
 	// 获取当前用户
 	routerGroup.GET("/user", middlewares.AuthJWT(), uc.CurrentUser)
+
+	usersGroup := routerGroup.Group("/users")
+	{
+		usersGroup.GET("", uc.Index)
+	}
 }

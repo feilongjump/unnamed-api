@@ -1,6 +1,12 @@
 package user
 
-import "unnamed-api/pkg/database"
+import (
+	"unnamed-api/pkg/app"
+	"unnamed-api/pkg/database"
+	"unnamed-api/pkg/paginator"
+
+	"github.com/gin-gonic/gin"
+)
 
 // IsEmailExist 判断 Email 已被注册
 func IsEmailExist(email string) bool {
@@ -43,5 +49,18 @@ func Get(idStr string) (userModel User) {
 // All 获取所有用户数据
 func All() (users []User) {
 	database.DB.Find(&users)
+	return
+}
+
+// Paginate 分页内容
+func Paginate(ctx *gin.Context, perPage int) (users []User, paging paginator.Paging) {
+	paging = paginator.Paginate(
+		ctx,
+		database.DB.Model(User{}),
+		&users,
+		app.V1URL(database.TableName(&User{})),
+		perPage,
+	)
+
 	return
 }

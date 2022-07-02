@@ -9,18 +9,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type UsersController struct {
+type AdminUsersController struct {
 	BaseAPIController
 }
 
-// CurrentUser 当前登录用户信息
-func (ctrl *UsersController) CurrentUser(ctx *gin.Context) {
-	userModel := auth.CurrentUser(ctx)
-	response.JSON(ctx, userModel)
+// CurrentUser 当前登录管理员用户信息
+func (ctrl *AdminUsersController) CurrentAdminUser(ctx *gin.Context) {
+	adminUserModel := auth.CurrentAdminUser(ctx)
+	response.JSON(ctx, adminUserModel)
 }
 
-// Index 所有用户
-func (ctrl *UsersController) Index(ctx *gin.Context) {
+// Index 所有管理员用户
+func (ctrl *AdminUsersController) Index(ctx *gin.Context) {
 	request := requests.PaginationRequest{}
 	if ok := requests.Validate(ctx, &request, requests.Pagination); !ok {
 		return

@@ -17,7 +17,7 @@ func RegisterApiRoutes(router *gin.Engine) {
 		authGroup := v1.Group("/auth")
 		authRouter(authGroup)
 
-		userRouter(v1)
+		adminUserRouter(v1)
 	}
 }
 
@@ -26,7 +26,6 @@ func authRouter(routerGroup *gin.RouterGroup) {
 	routerGroup.Use(middlewares.LimitIP("1000-H"))
 	{
 		suc := new(auth.SignupController)
-		routerGroup.POST("/signup/phone/exist", middlewares.GuestJWT(), suc.IsPhoneExist)
 		routerGroup.POST("/signup/email/exist", middlewares.GuestJWT(), suc.IsEmailExist)
 		routerGroup.POST("/signup/using-email", middlewares.GuestJWT(), middlewares.LimitPerRoute("60-H"), suc.SignupUsingEmail)
 
@@ -50,14 +49,14 @@ func authRouter(routerGroup *gin.RouterGroup) {
 	}
 }
 
-// user
-func userRouter(routerGroup *gin.RouterGroup) {
-	uc := new(controllers.UsersController)
-	// 获取当前用户
-	routerGroup.GET("/user", middlewares.AuthJWT(), uc.CurrentUser)
+// admin_user
+func adminUserRouter(routerGroup *gin.RouterGroup) {
+	auc := new(controllers.AdminUsersController)
+	// 获取当前管理员用户
+	routerGroup.GET("/admin_user", middlewares.AuthJWT(), auc.CurrentAdminUser)
 
-	usersGroup := routerGroup.Group("/users")
+	adminUsersGroup := routerGroup.Group("/admin_users")
 	{
-		usersGroup.GET("", uc.Index)
+		adminUsersGroup.GET("", auc.Index)
 	}
 }

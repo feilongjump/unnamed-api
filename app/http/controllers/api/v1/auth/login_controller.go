@@ -23,13 +23,13 @@ func (lgc *LoginController) LoginByEmail(ctx *gin.Context) {
 	}
 
 	// 尝试登录
-	user, err := auth.LoginByEmail(request.Email)
+	adminUser, err := auth.LoginByEmail(request.Email)
 	if err != nil {
 		// 登录失败
 		response.Unauthorized(ctx, err.Error())
 	} else {
 		// 登录成功
-		token := jwt.NewJWT().IssueToken(user.GetStringID(), user.Name)
+		token := jwt.NewJWT().IssueToken(adminUser.GetStringID(), adminUser.Name)
 
 		response.JSON(ctx, gin.H{
 			"token": token,
@@ -45,13 +45,13 @@ func (lgc *LoginController) LoginByPassword(ctx *gin.Context) {
 	}
 
 	// 尝试登录
-	user, err := auth.Attempt(request.UserName, request.Password)
+	adminUserModel, err := auth.Attempt(request.UserName, request.Password)
 	if err != nil {
 		// 登录失败
 		response.Unauthorized(ctx, err.Error())
 	} else {
 		// 登录成功
-		token := jwt.NewJWT().IssueToken(user.GetStringID(), user.Name)
+		token := jwt.NewJWT().IssueToken(adminUserModel.GetStringID(), adminUserModel.Name)
 
 		response.JSON(ctx, gin.H{
 			"token": token,

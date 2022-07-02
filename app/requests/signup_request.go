@@ -8,10 +8,6 @@ import (
 )
 
 type (
-	SignupPhoneExistRequest struct {
-		Phone string `json:"phone,omitempty" valid:"phone"`
-	}
-
 	SignupEmailExistRequest struct {
 		Email string `json:"email,omitempty" valid:"email"`
 	}
@@ -25,24 +21,6 @@ type (
 		PasswordConfirm string `json:"password_confirm,omitempty" valid:"password_confirm"`
 	}
 )
-
-func SignupPhoneExist(data interface{}, ctx *gin.Context) map[string][]string {
-
-	// 自定义验证规则
-	rules := govalidator.MapData{
-		"phone": []string{"required", "digits:11"},
-	}
-
-	// 自定义验证出错时的提示
-	message := govalidator.MapData{
-		"phone": []string{
-			"required:手机号为必填项",
-			"digits:手机号长度必须为 11 位的数字",
-		},
-	}
-
-	return validate(data, rules, message)
-}
 
 func SignupEmailExist(data interface{}, ctx *gin.Context) map[string][]string {
 
@@ -64,8 +42,8 @@ func SignupEmailExist(data interface{}, ctx *gin.Context) map[string][]string {
 
 func SignupUsingEmail(data interface{}, ctx *gin.Context) map[string][]string {
 	rules := govalidator.MapData{
-		"email":            []string{"required", "min:4", "max:30", "email", "not_exists:users,email"},
-		"name":             []string{"required", "alpha_num", "between:3,20", "not_exists:users,name"},
+		"email":            []string{"required", "min:4", "max:30", "email", "not_exists:admin_users,email"},
+		"name":             []string{"required", "alpha_num", "between:3,20", "not_exists:admin_users,name"},
 		"password":         []string{"required", "min:6"},
 		"password_confirm": []string{"required"},
 		"verify_code":      []string{"required", "digits:6"},

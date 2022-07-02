@@ -14,8 +14,16 @@ type {{StructNamePlural}}Controller struct {
 }
 
 func (ctrl *{{StructNamePlural}}Controller) Index(ctx *gin.Context) {
-    {{VariableNamePlural}} := {{PackageName}}.All()
-    response.JSON(ctx, {{VariableNamePlural}})
+	request := requests.PaginationRequest{}
+	if ok := requests.Validate(ctx, &request, requests.Pagination); !ok {
+		return
+	}
+
+	data, pager := {{PackageName}}.Paginate(ctx, 10)
+	response.JSON(ctx, gin.H{
+		"data":  data,
+		"pager": pager,
+	})
 }
 
 func (ctrl *{{StructNamePlural}}Controller) Show(ctx *gin.Context) {

@@ -25,8 +25,10 @@ func runMakeMigration(cmd *cobra.Command, args []string) {
 	// 截取中间部分值，替换 model.StructName 值
 	// 例如：add_user_table -> User
 	argSplit := strings.Split(args[0], "_")
-	argSplit = argSplit[1 : len(argSplit)-1]
-	model.StructName = str.Singular(str.Camel(strings.Join(argSplit, "_")))
+	if argSplitLen := len(argSplit); argSplitLen > 2 {
+		argSplit = argSplit[1 : len(argSplit)-1]
+		model.StructName = str.Singular(str.Camel(strings.Join(argSplit, "_")))
+	}
 
 	fileName := timeStr + "_" + model.PackageName
 	filePath := fmt.Sprintf("database/migrations/%s.go", fileName)

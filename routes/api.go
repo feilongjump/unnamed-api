@@ -18,6 +18,8 @@ func RegisterApiRoutes(router *gin.Engine) {
 		authRouter(authGroup)
 
 		adminUserRouter(v1)
+
+		customerRouter(v1)
 	}
 }
 
@@ -58,5 +60,19 @@ func adminUserRouter(routerGroup *gin.RouterGroup) {
 	adminUsersGroup := routerGroup.Group("/admin_users")
 	{
 		adminUsersGroup.GET("", auc.Index)
+	}
+}
+
+// customer
+func customerRouter(routerGroup *gin.RouterGroup) {
+	cc := new(controllers.CustomersController)
+
+	customersGroup := routerGroup.Group("/customers")
+	{
+		customersGroup.GET("", middlewares.AuthJWT(), cc.Index)
+		customersGroup.GET("/:id", middlewares.AuthJWT(), cc.Show)
+		customersGroup.POST("", middlewares.AuthJWT(), cc.Store)
+		customersGroup.PUT("/:id", middlewares.AuthJWT(), cc.Update)
+		customersGroup.DELETE("/:id", middlewares.AuthJWT(), cc.Delete)
 	}
 }

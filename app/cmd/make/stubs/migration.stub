@@ -13,7 +13,7 @@ func init() {
     type {{StructName}} struct {
         models.BaseModel
 
-        FIXME()
+        // FIXME()
 
         models.CommonTimestampsField
     }

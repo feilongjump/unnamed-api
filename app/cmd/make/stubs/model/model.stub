@@ -9,7 +9,7 @@ type {{StructName}} struct {
     models.BaseModel
 
     // Put fields in here
-    FIXME()
+    // FIXME()
 
     models.CommonTimestampsField
 }

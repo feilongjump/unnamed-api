@@ -67,12 +67,7 @@ func (ctrl *{{StructNamePlural}}Controller) Update(ctx *gin.Context) {
     }
 
     request := requests.{{StructName}}Request{}
-    bindOk, errs := requests.Validate(ctx, &request, requests.{{StructName}}Save)
-    if !bindOk {
-        return
-    }
-    if len(errs) > 0 {
-        response.ValidationError(ctx, 20101, errs)
+    if ok := requests.Validate(ctx, &request, requests.{{StructName}}Save); !ok {
         return
     }
 

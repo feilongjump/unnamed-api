@@ -25,6 +25,13 @@ func init() {
 
 	// min_cn:2 中文长度设定不小于 8
 	govalidator.AddCustomRule("min_cn", min_cn)
+
+	// 自定义规则 existed，验证请求数据必须存在于数据库中。
+	//  用于保证数据库某个字段的值是否存在，如管理员，客户，厂家。
+	//  existed 参数可以有两种，一种是 1 个参数，一种是 2 个参数：
+	// 	existed:users 检查数据库表里是否存在 id 为提交值的数据
+	// 	existed:users,email 检查数据库表里是否存在 email 为提交值的数据
+	govalidator.AddCustomRule("existed", existed)
 }
 
 func not_exists(field, rule, message string, value interface{}) error {
@@ -64,6 +71,39 @@ func not_exists(field, rule, message string, value interface{}) error {
 
 		// 默认的错误消息
 		return fmt.Errorf("%v 已被占用", requestValue)
+	}
+
+	// 验证通过
+	return nil
+}
+
+func existed(field, rule, message string, value interface{}) error {
+	rng := strings.Split(strings.TrimPrefix(rule, "existed:"), ",")
+
+	// 第一个参数，表名，如：users
+	tableName := rng[0]
+	// 第二个参数：字段名，如：email
+	dbField := "id"
+	if len(rng) > 1 {
+		dbField = rng[2]
+	}
+
+	// 拼接 SQL
+	query := database.DB.Table(tableName).Where(dbField+" = ?", value)
+
+	// 查询数据库
+	var count int64
+	query.Count(&count)
+
+	// 验证不通过，数据库能找到相应的数据
+	if count == 0 {
+		// 如果又自定义错误消息的话
+		if message != "" {
+			return errors.New(message)
+		}
+
+		// 默认的错误消息
+		return fmt.Errorf("%v 不存在", value)
 	}
 
 	// 验证通过

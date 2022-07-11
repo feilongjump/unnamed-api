@@ -1,12 +1,5 @@
 package policies
 
-import (
-    "unnamed-api/app/models/{{PackageName}}"
-    "unnamed-api/pkg/auth"
-
-    "github.com/gin-gonic/gin"
-)
-
 // example:
 // func CanModify{{StructName}}(c *gin.Context, {{VariableName}}Model {{PackageName}}.{{StructName}}) bool {
 //     return auth.CurrentUID(c) == {{VariableName}}Model.UserID

@@ -27,7 +27,7 @@ func (ctrl *{{StructNamePlural}}Controller) Index(ctx *gin.Context) {
 }
 
 func (ctrl *{{StructNamePlural}}Controller) Show(ctx *gin.Context) {
-    {{VariableName}}Model := {{PackageName}}.Get(ctx.Param("id"))
+    {{VariableName}}Model := {{PackageName}}.Get(ctx.Param("{{VariableName}}"))
     if {{VariableName}}Model.ID == 0 {
         response.Abort404(ctx)
         return
@@ -55,7 +55,7 @@ func (ctrl *{{StructNamePlural}}Controller) Store(ctx *gin.Context) {
 
 func (ctrl *{{StructNamePlural}}Controller) Update(ctx *gin.Context) {
 
-    {{VariableName}}Model := {{PackageName}}.Get(ctx.Param("id"))
+    {{VariableName}}Model := {{PackageName}}.Get(ctx.Param("{{VariableName}}"))
     if {{VariableName}}Model.ID == 0 {
         response.Abort404(ctx)
         return
@@ -66,10 +66,10 @@ func (ctrl *{{StructNamePlural}}Controller) Update(ctx *gin.Context) {
         return
     }
 
-    request := requests.{{StructName}}Request{}
-    if ok := requests.Validate(ctx, &request, requests.{{StructName}}Save); !ok {
-        return
-    }
+    // request := requests.{{StructName}}Request{}
+    // if ok := requests.Validate(ctx, &request, requests.{{StructName}}Save); !ok {
+    //     return
+    // }
 
     {{VariableName}}Model.FieldName = request.FieldName
     rowsAffected := {{VariableName}}Model.Save()
@@ -82,16 +82,16 @@ func (ctrl *{{StructNamePlural}}Controller) Update(ctx *gin.Context) {
 
 func (ctrl *{{StructNamePlural}}Controller) Delete(ctx *gin.Context) {
 
-    {{VariableName}}Model := {{PackageName}}.Get(ctx.Param("id"))
+    {{VariableName}}Model := {{PackageName}}.Get(ctx.Param("{{VariableName}}"))
     if {{VariableName}}Model.ID == 0 {
         response.Abort404(ctx)
         return
     }
 
-    if ok := policies.CanModify{{StructName}}(ctx, {{VariableName}}Model); !ok {
-        response.Abort403(ctx)
-        return
-    }
+    // if ok := policies.CanModify{{StructName}}(ctx, {{VariableName}}Model); !ok {
+    //     response.Abort403(ctx)
+    //     return
+    // }
 
     rowsAffected := {{VariableName}}Model.Delete()
     if rowsAffected > 0 {

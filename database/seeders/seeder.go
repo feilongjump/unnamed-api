@@ -9,5 +9,6 @@ func Initialize() {
 	seed.SetRunOrder([]string{
 		"SeedAdminUsersTable",
 		"SeedCustomersTable",
+		"SeedCustomerContactsTable",
 	})
 }

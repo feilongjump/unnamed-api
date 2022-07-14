@@ -70,9 +70,20 @@ func customerRouter(routerGroup *gin.RouterGroup) {
 	customersGroup := routerGroup.Group("/customers")
 	{
 		customersGroup.GET("", middlewares.AuthJWT(), cc.Index)
-		customersGroup.GET("/:id", middlewares.AuthJWT(), cc.Show)
+		customersGroup.GET("/:customer", middlewares.AuthJWT(), cc.Show)
 		customersGroup.POST("", middlewares.AuthJWT(), cc.Store)
-		customersGroup.PUT("/:id", middlewares.AuthJWT(), cc.Update)
-		customersGroup.DELETE("/:id", middlewares.AuthJWT(), cc.Delete)
+		customersGroup.PUT("/:customer", middlewares.AuthJWT(), cc.Update)
+		customersGroup.DELETE("/:customer", middlewares.AuthJWT(), cc.Delete)
 	}
+
+	ccc := new(controllers.CustomerContactsController)
+	customerContactsGroup := customersGroup.Group("/:customer/contacts")
+	{
+		customerContactsGroup.GET("", middlewares.AuthJWT(), ccc.Index)
+		customerContactsGroup.GET("/:contact", middlewares.AuthJWT(), ccc.Show)
+		customerContactsGroup.POST("", middlewares.AuthJWT(), ccc.Store)
+		customerContactsGroup.PUT("/:contact", middlewares.AuthJWT(), ccc.Update)
+		customerContactsGroup.DELETE("/:contact", middlewares.AuthJWT(), ccc.Delete)
+	}
+
 }

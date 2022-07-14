@@ -26,7 +26,7 @@ func (ctrl *CustomersController) Index(ctx *gin.Context) {
 }
 
 func (ctrl *CustomersController) Show(ctx *gin.Context) {
-	customerModel := customer.Get(ctx.Param("id"))
+	customerModel := customer.Get(ctx.Param("customer"))
 	if customerModel.ID == 0 {
 		response.Abort404(ctx)
 		return
@@ -62,7 +62,7 @@ func (ctrl *CustomersController) Store(ctx *gin.Context) {
 
 func (ctrl *CustomersController) Update(ctx *gin.Context) {
 
-	customerModel := customer.Get(ctx.Param("id"))
+	customerModel := customer.Get(ctx.Param("customer"))
 	if customerModel.ID == 0 {
 		response.Abort404(ctx)
 		return
@@ -99,7 +99,7 @@ func (ctrl *CustomersController) Update(ctx *gin.Context) {
 
 func (ctrl *CustomersController) Delete(ctx *gin.Context) {
 
-	customerModel := customer.Get(ctx.Param("id"))
+	customerModel := customer.Get(ctx.Param("customer"))
 	if customerModel.ID == 0 {
 		response.Abort404(ctx)
 		return

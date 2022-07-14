@@ -1,12 +1,12 @@
 package policies
 
 // example:
-// func CanModify{{StructName}}(c *gin.Context, {{VariableName}}Model {{PackageName}}.{{StructName}}) bool {
-//     return auth.CurrentUID(c) == {{VariableName}}Model.UserID
+// func CanModify{{StructName}}(ctx *gin.Context, {{VariableName}}Model {{PackageName}}.{{StructName}}) bool {
+//     return auth.CurrentUID(ctx) == {{VariableName}}Model.UserID
 // }
 
-// func CanModify{{StructName}}(c *gin.Context, {{VariableName}}Model {{PackageName}}.{{StructName}}) bool {}
-// func CanView{{StructName}}(c *gin.Context, {{VariableName}}Model {{PackageName}}.{{StructName}}) bool {}
-// func CanCreate{{StructName}}(c *gin.Context, {{VariableName}}Model {{PackageName}}.{{StructName}}) bool {}
-// func CanUpdate{{StructName}}(c *gin.Context, {{VariableName}}Model {{PackageName}}.{{StructName}}) bool {}
-// func CanDelete{{StructName}}(c *gin.Context, {{VariableName}}Model {{PackageName}}.{{StructName}}) bool {}
+// func CanModify{{StructName}}(ctx *gin.Context, {{VariableName}}Model {{PackageName}}.{{StructName}}) bool {}
+// func CanView{{StructName}}(ctx *gin.Context, {{VariableName}}Model {{PackageName}}.{{StructName}}) bool {}
+// func CanCreate{{StructName}}(ctx *gin.Context, {{VariableName}}Model {{PackageName}}.{{StructName}}) bool {}
+// func CanUpdate{{StructName}}(ctx *gin.Context, {{VariableName}}Model {{PackageName}}.{{StructName}}) bool {}
+// func CanDelete{{StructName}}(ctx *gin.Context, {{VariableName}}Model {{PackageName}}.{{StructName}}) bool {}

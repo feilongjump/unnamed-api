@@ -113,24 +113,24 @@ func manufacturerRouter(routerGroup *gin.RouterGroup) {
 		manufacturersGroup.DELETE("/:manufacturer", middlewares.AuthJWT(), mc.Delete)
 	}
 
-	// ccc := new(controllers.CustomerContactsController)
-	// customerContactsGroup := customersGroup.Group("/:customer/contacts")
-	// {
-	// 	customerContactsGroup.GET("", middlewares.AuthJWT(), ccc.Index)
-	// 	customerContactsGroup.GET("/:contact", middlewares.AuthJWT(), ccc.Show)
-	// 	customerContactsGroup.POST("", middlewares.AuthJWT(), ccc.Store)
-	// 	customerContactsGroup.PUT("/:contact", middlewares.AuthJWT(), ccc.Update)
-	// 	customerContactsGroup.DELETE("/:contact", middlewares.AuthJWT(), ccc.Delete)
-	// }
+	mcc := new(controllers.ManufacturerContactsController)
+	manufacturerContactsGroup := manufacturersGroup.Group("/:manufacturer/contacts")
+	{
+		manufacturerContactsGroup.GET("", middlewares.AuthJWT(), mcc.Index)
+		manufacturerContactsGroup.GET("/:contact", middlewares.AuthJWT(), mcc.Show)
+		manufacturerContactsGroup.POST("", middlewares.AuthJWT(), mcc.Store)
+		manufacturerContactsGroup.PUT("/:contact", middlewares.AuthJWT(), mcc.Update)
+		manufacturerContactsGroup.DELETE("/:contact", middlewares.AuthJWT(), mcc.Delete)
+	}
 
-	// cbc := new(controllers.CustomerBanksController)
-	// customerBanksGroup := customersGroup.Group("/:customer/banks")
-	// {
-	// 	customerBanksGroup.GET("", middlewares.AuthJWT(), cbc.Index)
-	// 	customerBanksGroup.GET("/:bank", middlewares.AuthJWT(), cbc.Show)
-	// 	customerBanksGroup.POST("", middlewares.AuthJWT(), cbc.Store)
-	// 	customerBanksGroup.PUT("/:bank", middlewares.AuthJWT(), cbc.Update)
-	// 	customerBanksGroup.DELETE("/:bank", middlewares.AuthJWT(), cbc.Delete)
-	// }
+	mbc := new(controllers.ManufacturerBanksController)
+	manufacturerBanksGroup := manufacturersGroup.Group("/:manufacturer/banks")
+	{
+		manufacturerBanksGroup.GET("", middlewares.AuthJWT(), mbc.Index)
+		manufacturerBanksGroup.GET("/:bank", middlewares.AuthJWT(), mbc.Show)
+		manufacturerBanksGroup.POST("", middlewares.AuthJWT(), mbc.Store)
+		manufacturerBanksGroup.PUT("/:bank", middlewares.AuthJWT(), mbc.Update)
+		manufacturerBanksGroup.DELETE("/:bank", middlewares.AuthJWT(), mbc.Delete)
+	}
 
 }

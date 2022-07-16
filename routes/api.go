@@ -86,4 +86,14 @@ func customerRouter(routerGroup *gin.RouterGroup) {
 		customerContactsGroup.DELETE("/:contact", middlewares.AuthJWT(), ccc.Delete)
 	}
 
+	cbc := new(controllers.CustomerBanksController)
+	customerBanksGroup := customersGroup.Group("/:customer/banks")
+	{
+		customerBanksGroup.GET("", middlewares.AuthJWT(), cbc.Index)
+		customerBanksGroup.GET("/:bank", middlewares.AuthJWT(), cbc.Show)
+		customerBanksGroup.POST("", middlewares.AuthJWT(), cbc.Store)
+		customerBanksGroup.PUT("/:bank", middlewares.AuthJWT(), cbc.Update)
+		customerBanksGroup.DELETE("/:bank", middlewares.AuthJWT(), cbc.Delete)
+	}
+
 }

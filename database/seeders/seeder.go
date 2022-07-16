@@ -10,5 +10,6 @@ func Initialize() {
 		"SeedAdminUsersTable",
 		"SeedCustomersTable",
 		"SeedCustomerContactsTable",
+		"SeedCustomerBanksTable",
 	})
 }

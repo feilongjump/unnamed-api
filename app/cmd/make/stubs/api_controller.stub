@@ -61,15 +61,15 @@ func (ctrl *{{StructNamePlural}}Controller) Update(ctx *gin.Context) {
         return
     }
 
-    if ok := policies.CanModify{{StructName}}(ctx, {{VariableName}}Model); !ok {
-        response.Abort403(ctx)
-        return
-    }
-
-    // request := requests.{{StructName}}Request{}
-    // if ok := requests.Validate(ctx, &request, requests.{{StructName}}Save); !ok {
+    // if ok := policies.CanModify{{StructName}}(ctx, {{VariableName}}Model); !ok {
+    //     response.Abort403(ctx)
     //     return
     // }
+
+    request := requests.{{StructName}}Request{}
+    if ok := requests.Validate(ctx, &request, requests.{{StructName}}Save); !ok {
+        return
+    }
 
     {{VariableName}}Model.FieldName = request.FieldName
     rowsAffected := {{VariableName}}Model.Save()

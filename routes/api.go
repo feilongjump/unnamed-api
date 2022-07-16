@@ -20,6 +20,8 @@ func RegisterApiRoutes(router *gin.Engine) {
 		adminUserRouter(v1)
 
 		customerRouter(v1)
+
+		manufacturerRouter(v1)
 	}
 }
 
@@ -95,5 +97,40 @@ func customerRouter(routerGroup *gin.RouterGroup) {
 		customerBanksGroup.PUT("/:bank", middlewares.AuthJWT(), cbc.Update)
 		customerBanksGroup.DELETE("/:bank", middlewares.AuthJWT(), cbc.Delete)
 	}
+
+}
+
+// manufacturer
+func manufacturerRouter(routerGroup *gin.RouterGroup) {
+	mc := new(controllers.ManufacturersController)
+
+	manufacturersGroup := routerGroup.Group("/manufacturers")
+	{
+		manufacturersGroup.GET("", middlewares.AuthJWT(), mc.Index)
+		manufacturersGroup.GET("/:manufacturer", middlewares.AuthJWT(), mc.Show)
+		manufacturersGroup.POST("", middlewares.AuthJWT(), mc.Store)
+		manufacturersGroup.PUT("/:manufacturer", middlewares.AuthJWT(), mc.Update)
+		manufacturersGroup.DELETE("/:manufacturer", middlewares.AuthJWT(), mc.Delete)
+	}
+
+	// ccc := new(controllers.CustomerContactsController)
+	// customerContactsGroup := customersGroup.Group("/:customer/contacts")
+	// {
+	// 	customerContactsGroup.GET("", middlewares.AuthJWT(), ccc.Index)
+	// 	customerContactsGroup.GET("/:contact", middlewares.AuthJWT(), ccc.Show)
+	// 	customerContactsGroup.POST("", middlewares.AuthJWT(), ccc.Store)
+	// 	customerContactsGroup.PUT("/:contact", middlewares.AuthJWT(), ccc.Update)
+	// 	customerContactsGroup.DELETE("/:contact", middlewares.AuthJWT(), ccc.Delete)
+	// }
+
+	// cbc := new(controllers.CustomerBanksController)
+	// customerBanksGroup := customersGroup.Group("/:customer/banks")
+	// {
+	// 	customerBanksGroup.GET("", middlewares.AuthJWT(), cbc.Index)
+	// 	customerBanksGroup.GET("/:bank", middlewares.AuthJWT(), cbc.Show)
+	// 	customerBanksGroup.POST("", middlewares.AuthJWT(), cbc.Store)
+	// 	customerBanksGroup.PUT("/:bank", middlewares.AuthJWT(), cbc.Update)
+	// 	customerBanksGroup.DELETE("/:bank", middlewares.AuthJWT(), cbc.Delete)
+	// }
 
 }

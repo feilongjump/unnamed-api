@@ -22,6 +22,8 @@ func RegisterApiRoutes(router *gin.Engine) {
 		customerRouter(v1)
 
 		manufacturerRouter(v1)
+
+		materialRouter(v1)
 	}
 }
 
@@ -133,4 +135,18 @@ func manufacturerRouter(routerGroup *gin.RouterGroup) {
 		manufacturerBanksGroup.DELETE("/:bank", middlewares.AuthJWT(), mbc.Delete)
 	}
 
+}
+
+// material
+func materialRouter(routerGroup *gin.RouterGroup) {
+	mc := new(controllers.MaterialsController)
+
+	materialsGroup := routerGroup.Group("/materials")
+	{
+		materialsGroup.GET("", middlewares.AuthJWT(), mc.Index)
+		materialsGroup.GET("/:material", middlewares.AuthJWT(), mc.Show)
+		materialsGroup.POST("", middlewares.AuthJWT(), mc.Store)
+		materialsGroup.PUT("/:material", middlewares.AuthJWT(), mc.Update)
+		materialsGroup.DELETE("/:material", middlewares.AuthJWT(), mc.Delete)
+	}
 }

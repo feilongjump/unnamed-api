@@ -15,5 +15,6 @@ func Initialize() {
 		"SeedManufacturerContactsTable",
 		"SeedManufacturerBanksTable",
 		"SeedMaterialsTable",
+		"SeedExhibitsTable",
 	})
 }

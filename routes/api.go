@@ -24,6 +24,8 @@ func RegisterApiRoutes(router *gin.Engine) {
 		manufacturerRouter(v1)
 
 		materialRouter(v1)
+
+		exhibitRouter(v1)
 	}
 }
 
@@ -148,5 +150,19 @@ func materialRouter(routerGroup *gin.RouterGroup) {
 		materialsGroup.POST("", middlewares.AuthJWT(), mc.Store)
 		materialsGroup.PUT("/:material", middlewares.AuthJWT(), mc.Update)
 		materialsGroup.DELETE("/:material", middlewares.AuthJWT(), mc.Delete)
+	}
+}
+
+// exhibit
+func exhibitRouter(routerGroup *gin.RouterGroup) {
+	ec := new(controllers.ExhibitsController)
+
+	exhibitsGroup := routerGroup.Group("/exhibits")
+	{
+		exhibitsGroup.GET("", middlewares.AuthJWT(), ec.Index)
+		exhibitsGroup.GET("/:exhibit", middlewares.AuthJWT(), ec.Show)
+		exhibitsGroup.POST("", middlewares.AuthJWT(), ec.Store)
+		exhibitsGroup.PUT("/:exhibit", middlewares.AuthJWT(), ec.Update)
+		exhibitsGroup.DELETE("/:exhibit", middlewares.AuthJWT(), ec.Delete)
 	}
 }

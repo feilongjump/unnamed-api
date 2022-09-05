@@ -28,7 +28,7 @@ func ExhibitSave(data interface{}, c *gin.Context) map[string][]string {
 		"manufacturer_id": []string{"required", "numeric", "existed:manufacturers"},
 		"mo":              []string{"required", "min_cn:2", "max_cn:30"},
 		"no":              []string{"required", "min_cn:2", "max_cn:30"},
-		"name":            []string{"required"},
+		"name":            []string{"json"},
 	}
 	messages := govalidator.MapData{
 		"manufacturer_id": []string{

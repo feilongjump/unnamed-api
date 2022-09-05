@@ -40,29 +40,28 @@ func (ctrl *ExhibitsController) Store(ctx *gin.Context) {
 	if ok := requests.Validate(ctx, &request, requests.ExhibitSave); !ok {
 		return
 	}
-	response.Created(ctx, 123)
 
-	//exhibitModel := exhibit.Exhibit{
-	//	ManufacturerID: request.ManufacturerID,
-	//	Mo:             request.Mo,
-	//	No:             request.No,
-	//	Name:           request.Name,
-	//	Spec:           request.Spec,
-	//	Series:         request.Series,
-	//	Material:       request.Material,
-	//	UnitPrice:      request.UnitPrice,
-	//	QuotedPrice:    request.QuotedPrice,
-	//	TaxRebateRate:  request.TaxRebateRate,
-	//	Describe:       request.Describe,
-	//	PackDescribe:   request.PackDescribe,
-	//	Remarks:        request.Remarks,
-	//}
-	//exhibitModel.Create()
-	//if exhibitModel.ID > 0 {
-	//	response.Created(ctx, exhibitModel)
-	//} else {
-	//	response.Abort500(ctx, "创建失败，请稍后尝试~")
-	//}
+	exhibitModel := exhibit.Exhibit{
+		ManufacturerID: request.ManufacturerID,
+		Mo:             request.Mo,
+		No:             request.No,
+		Name:           request.Name,
+		Spec:           request.Spec,
+		Series:         request.Series,
+		Material:       request.Material,
+		UnitPrice:      request.UnitPrice,
+		QuotedPrice:    request.QuotedPrice,
+		TaxRebateRate:  request.TaxRebateRate,
+		Describe:       request.Describe,
+		PackDescribe:   request.PackDescribe,
+		Remarks:        request.Remarks,
+	}
+	exhibitModel.Create()
+	if exhibitModel.ID > 0 {
+		response.Created(ctx, exhibitModel)
+	} else {
+		response.Abort500(ctx, "创建失败，请稍后尝试~")
+	}
 }
 
 func (ctrl *ExhibitsController) Update(ctx *gin.Context) {
